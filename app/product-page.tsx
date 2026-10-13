@@ -14,11 +14,11 @@ const imageCount = product.images.length;
 const wrap = (index: number) => (index + imageCount) % imageCount;
 const pairs = (n: number) => `${n} ${n === 1 ? "pair" : "pairs"}`;
 
-/** True from 48rem (768 px), where the design shows thumbnails and a clickable stage that opens the lightbox. */
+/** True from 768 px, where the design shows thumbnails and a clickable stage that opens the lightbox. */
 function useWideLayout() {
   const [wide, setWide] = useState(true);
   useEffect(() => {
-    const query = window.matchMedia("(min-width: 48rem)");
+    const query = window.matchMedia("(min-width: 768px)");
     const update = () => setWide(query.matches);
     update();
     query.addEventListener("change", update);
@@ -225,7 +225,7 @@ export function ProductPage() {
           <div className="stage">
             {wide ? (
               <button type="button" className="stage-button" aria-haspopup="dialog" onClick={openLightbox}>
-                <Image src={image.full} alt={image.alt} width={1000} height={1000} priority sizes="(min-width: 48rem) 445px, 100vw" />
+                <Image src={image.full} alt={image.alt} width={1000} height={1000} priority sizes="(min-width: 768px) 445px, 100vw" />
                 <span className="sr-only">Open the gallery</span>
               </button>
             ) : (
@@ -249,13 +249,14 @@ export function ProductPage() {
           <p className="description">{product.description}</p>
           <div className="price-row">
             <p className="price-now">{formatPrice(product.priceCents)}</p>
-            <p className="discount">
+            <p className="discount" aria-hidden="true">
               {product.discount}
-              <span className="sr-only"> off</span>
             </p>
-            <p className="price-was">
-              <span className="sr-only">Was </span>
+            <p className="price-was" aria-hidden="true">
               <s>{formatPrice(product.originalPriceCents)}</s>
+            </p>
+            <p className="sr-only">
+              {product.discount} off, was {formatPrice(product.originalPriceCents)}
             </p>
           </div>
           <div className="purchase">
@@ -265,7 +266,6 @@ export function ProductPage() {
                 <span className="sr-only">Decrease quantity</span>
               </button>
               <span className="quantity-value" aria-live="polite" aria-atomic="true">
-                <span className="sr-only">Quantity </span>
                 {quantity}
               </span>
               <button type="button" className="quantity-button" onClick={() => changeQuantity(1)}>

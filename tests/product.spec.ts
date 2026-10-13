@@ -85,10 +85,10 @@ test("adds items to the cart, shows the total, and removes them", async ({ page 
   await decrease(page).click();
   await expect(page.getByText("The quantity is already 0.")).toBeVisible();
   for (let i = 0; i < 3; i++) await increase(page).click();
-  await expect(page.locator(".quantity-value")).toHaveText("Quantity 3");
+  await expect(page.locator(".quantity-value")).toHaveText("3");
   await addToCart(page).click();
   await expect(page.getByText("Added 3 pairs to your cart.")).toBeVisible();
-  await expect(page.locator(".quantity-value")).toHaveText("Quantity 0");
+  await expect(page.locator(".quantity-value")).toHaveText("0");
   await expect(cartButton(page)).toHaveAccessibleName("Cart, 3 pairs");
   await expect(page.locator(".cart-badge")).toHaveText("3");
 
@@ -120,7 +120,7 @@ test("adding again accumulates and the limits are explained, not silent", async 
   await addToCart(page).click();
   await expect(cartButton(page)).toHaveAccessibleName("Cart, 3 pairs");
   for (let i = 0; i < 11; i++) await increase(page).click();
-  await expect(page.locator(".quantity-value")).toHaveText("Quantity 10");
+  await expect(page.locator(".quantity-value")).toHaveText("10");
   await expect(page.getByText("You can add up to 10 pairs at a time.")).toBeVisible();
 });
 

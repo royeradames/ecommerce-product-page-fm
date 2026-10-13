@@ -15,7 +15,7 @@
   --line: #e4e9f2;
   --delete: #c3cad9;
   --white: #ffffff;
-  --gutter: 1.5rem;
+  --gutter: 24px; /* page gutters stay in px so a larger default text size doesn't eat the width */
 }
 
 * { box-sizing: border-box; }
@@ -46,6 +46,8 @@ ul { padding: 0; list-style: none; }
   position: relative;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  column-gap: 0;
   min-height: 4.25rem;
   padding: 0 var(--gutter);
 }
@@ -63,7 +65,7 @@ ul { padding: 0; list-style: none; }
   color: var(--very-dark-blue);
   text-decoration: none;
   font-weight: 700;
-  font-size: 1.75rem;
+  font-size: 2.125rem;
   line-height: 1;
   letter-spacing: -0.035em;
   padding: 0.25rem 0 0.375rem;
@@ -90,8 +92,8 @@ ul { padding: 0; list-style: none; }
   text-align: center;
 }
 .avatar {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid transparent;
   box-sizing: content-box;
@@ -135,7 +137,7 @@ ul { padding: 0; list-style: none; }
   justify-content: center;
   gap: 1rem;
   min-height: 3.5rem;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   border-radius: 0.625rem;
   background: var(--orange);
   color: var(--very-dark-blue);
@@ -279,8 +281,8 @@ ul { padding: 0; list-style: none; }
 .site-footer a { color: var(--very-dark-blue); text-underline-offset: 0.2em; }
 
 /* ---------- 768 px and up: gallery beside the details ---------- */
-@media (min-width: 48rem) {
-  :root { --gutter: 2rem; }
+@media (min-width: 768px) {
+  :root { --gutter: 32px; }
   .header-inner {
     width: min(100% - 2 * var(--gutter), 69.375rem);
     min-height: 7rem;
@@ -289,11 +291,10 @@ ul { padding: 0; list-style: none; }
     border-bottom: 1px solid var(--line);
   }
   .menu-button { margin-left: -0.75rem; }
-  .logo { font-size: 2.125rem; }
   /* The cart icon sits 46 px left of the avatar; the 44 px target adds 11 px each side. */
   .header-actions { gap: clamp(1.25rem, 3.2vw, 2.875rem); }
   .cart-button { margin-right: -0.6875rem; }
-  .avatar { width: 3.125rem; height: 3.125rem; }
+  .avatar { width: 50px; height: 50px; }
   .cart-panel { top: 5.875rem; left: auto; right: -2.75rem; width: 22.5rem; }
 
   .product {
@@ -309,21 +310,25 @@ ul { padding: 0; list-style: none; }
   .gallery .thumbs { display: grid; gap: clamp(1rem, 2.2vw, 1.9375rem); }
   .details { padding: 0; }
   .company { font-size: 1rem; }
-  .details h1 { margin-top: 1.5rem; font-size: clamp(2rem, 3.1vw, 2.75rem); line-height: 1.09; }
+  .details h1 { margin-top: 1.5rem; font-size: 2rem; line-height: 1.09; }
   .description { margin-top: 2rem; line-height: 1.625rem; }
   .price-row { margin-top: 1.5rem; }
   .price-was { flex-basis: 100%; margin-left: 0; }
-  .purchase { grid-template-columns: 9.8125rem minmax(max-content, 1fr); margin-top: 2rem; }
+  .purchase { display: flex; flex-wrap: wrap; margin-top: 2rem; }
+  .quantity { flex: 1 1 9.8125rem; }
 }
 
 /* Narrow two-column widths: the quantity box and button stack rather than squeeze the label. */
-@media (min-width: 48rem) and (max-width: 63.99rem) {
-  .purchase { grid-template-columns: 1fr; }
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .purchase .add-button { flex: 1 1 100%; }
 }
 
 /* ---------- 1024 px and up: the full desktop header ---------- */
-@media (min-width: 64rem) {
+@media (min-width: 1024px) {
   .menu-button { display: none; }
+  .details h1 { font-size: 2.75rem; }
+  .quantity { flex: 0 0 9.8125rem; }
+  .add-button { flex: 1 1 auto; }
   .logo { margin-right: 3.5rem; }
   .desktop-nav { display: block; align-self: stretch; }
   .desktop-nav ul { display: flex; gap: 2rem; height: 100%; }
@@ -347,7 +352,7 @@ ul { padding: 0; list-style: none; }
   }
 }
 
-@media (max-width: 90rem) and (min-width: 48rem) {
+@media (max-width: 1440px) and (min-width: 768px) {
   .cart-panel { right: 0; }
 }
 

@@ -41,7 +41,8 @@ test("keeps Frontend Mentor's words", async ({ page }) => {
   for (const text of ["Collections", "Men", "Women", "About", "Contact", "Sneaker Company", "$125.00", "$250.00", "Add to cart"]) {
     await expect(page.getByText(text, { exact: true }).first()).toBeAttached();
   }
-  await expect(page.locator(".discount")).toHaveText("50% off");
+  await expect(page.locator(".discount")).toHaveText("50%");
+  await expect(page.getByText("50% off, was $250.00")).toBeAttached();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Fall Limited Edition Sneakers");
   await expect(page.locator(".description")).toHaveText(
     "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
