@@ -148,3 +148,44 @@ test("the phone menu opens as a drawer and closes with its button or Escape", as
   await drawer.getByRole("button", { name: "Close menu" }).click();
   await expect(drawer).toBeHidden();
 });
+
+test("the cart holds at most 99 pairs and says when it takes only part of an addition", async ({ page }) => {
+  await open(page);
+  for (let round = 0; round < 9; round++) {
+    for (let i = 0; i < 10; i++) await increase(page).click();
+    await addToCart(page).click();
+  }
+  await expect(cartButton(page)).toHaveAccessibleName("Cart, 90 pairs");
+  for (let i = 0; i < 10; i++) await increase(page).click();
+  await addToCart(page).click();
+  await expect(page.getByText("Added 9 pairs. The cart holds up to 99.")).toBeVisible();
+  await expect(cartButton(page)).toHaveAccessibleName("Cart, 99 pairs");
+  await increase(page).click();
+  await addToCart(page).click();
+  await expect(page.getByText("Your cart already holds the most it can: 99 pairs.")).toBeVisible();
+  await cartButton(page).click();
+  await expect(page.locator("#cart-panel").getByText("$125.00 x 99 $12,375.00")).toBeVisible();
+});
+
+test("status messages live in regions that exist before they speak", async ({ page }) => {
+  await open(page);
+  // An empty announcer must stay in the accessibility tree (not display: none) so its first message is read.
+  const display = await page.locator(".form-message").evaluate((el) => getComputedStyle(el).display);
+  expect(display).not.toBe("none");
+  for (let i = 0; i < 1; i++) await increase(page).click();
+  await addToCart(page).click();
+  await cartButton(page).click();
+  expect(await page.locator(".cart-note").evaluate((el) => getComputedStyle(el).display)).not.toBe("none");
+});
+
+test("the lightbox fits a short desktop window", async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 600 });
+  await page.goto("/");
+  await waitForHydrated(page);
+  await page.getByRole("button", { name: /Open the gallery/ }).click();
+  const thumbs = page.getByRole("list", { name: "Gallery thumbnails" });
+  const box = (await thumbs.boundingBox())!;
+  expect(box.y + box.height).toBeLessThanOrEqual(600);
+  const close = (await page.getByRole("button", { name: "Close gallery" }).boundingBox())!;
+  expect(close.y).toBeGreaterThanOrEqual(0);
+});

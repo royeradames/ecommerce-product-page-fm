@@ -13,7 +13,9 @@
   --grayish-blue: #b6bcc8;
   --light-grayish-blue: #f7f8fd;
   --line: #e4e9f2;
-  --delete: #c3cad9;
+  --delete: #8a91a0; /* FM's #c3cad9 is 1.6:1; icons need 3:1 */
+  --orange-icon: #e06a0b; /* FM's orange icons are 2.4:1 on the quantity box */
+  --orange-icon-hover: #c25700;
   --white: #ffffff;
   --gutter: 24px; /* page gutters stay in px so a larger default text size doesn't eat the width */
 }
@@ -128,7 +130,8 @@ ul { padding: 0; list-style: none; }
 .delete-button:hover { color: var(--very-dark-blue); }
 .cart-panel .primary-button { margin-top: 1.5rem; width: 100%; box-shadow: none; }
 .cart-note { margin-top: 0.75rem; color: var(--dark-grayish-blue); }
-.cart-note:empty { display: none; }
+/* Empty announcers stay in the accessibility tree so their first message is read. */
+.cart-note:empty { margin-top: 0; }
 
 /* ---------- buttons ---------- */
 .primary-button {
@@ -191,7 +194,7 @@ ul { padding: 0; list-style: none; }
   color: var(--very-dark-blue);
 }
 .arrow svg { height: 0.75rem; width: auto; }
-.arrow:hover { color: var(--orange); }
+.arrow:hover { color: var(--orange-icon); }
 .arrow-previous { left: 1rem; }
 .arrow-previous svg { margin-right: 0.1875rem; }
 .arrow-next { right: 1rem; }
@@ -243,13 +246,13 @@ ul { padding: 0; list-style: none; }
   border-radius: 0.625rem;
   background: var(--light-grayish-blue);
 }
-.quantity-button { display: grid; place-items: center; width: 3.5rem; min-height: 3.5rem; color: var(--orange); }
-.quantity-button:hover { color: var(--orange-hover); }
+.quantity-button { display: grid; place-items: center; width: 3.5rem; min-height: 3.5rem; color: var(--orange-icon); }
+.quantity-button:hover { color: var(--orange-icon-hover); }
 .quantity-value { font-weight: 700; }
 .add-button { box-shadow: 0 1.25rem 3.125rem -1.25rem var(--orange); }
 .add-button svg { width: 1.0625rem; height: auto; }
 .form-message { margin-top: 1rem; color: var(--dark-grayish-blue); }
-.form-message:empty { display: none; }
+.form-message:empty { margin-top: 0; }
 
 /* ---------- lightbox ---------- */
 .lightbox {
@@ -262,7 +265,8 @@ ul { padding: 0; list-style: none; }
   max-height: none;
 }
 .lightbox::backdrop { background: rgb(0 0 0 / 0.75); }
-.lightbox-inner { width: min(34.375rem, 100vw - 6rem); }
+/* The gallery shrinks to fit short windows: close button, square image and thumbnails stay on screen. */
+.lightbox-inner { width: min(34.375rem, 100vw - 6rem, (100svh - 4rem) / 1.32); }
 .lightbox :focus-visible { outline-color: var(--white); }
 .close-lightbox { display: grid; margin: 0 -0.9375rem 0.5rem auto; color: var(--white); }
 .close-lightbox svg { width: 1.25rem; height: auto; }
@@ -279,6 +283,7 @@ ul { padding: 0; list-style: none; }
 .site-footer { padding: 2rem var(--gutter) 2.5rem; text-align: center; color: var(--dark-grayish-blue); }
 .site-footer p + p { margin-top: 0.375rem; }
 .site-footer a { color: var(--very-dark-blue); text-underline-offset: 0.2em; }
+.site-footer a:hover { color: var(--orange-text); text-decoration-thickness: 2px; }
 
 /* ---------- 768 px and up: gallery beside the details ---------- */
 @media (min-width: 768px) {

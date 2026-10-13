@@ -8,7 +8,8 @@ Live: https://ecommerce-product-page-fm.royeradames.com/
 - On phones the image has previous and next arrows, and the menu opens as a drawer.
 - Choose a quantity and add it to the cart. The cart icon shows the count; the cart lists the item, price, quantity and total, and the bin removes it. Pressing "Add to cart" at 0, minus at 0 or plus past 10 explains why nothing changed.
 - The cart lives in memory. Nothing is stored, sent, ordered or charged; Checkout says so.
-- Layout, words, images and icons follow Frontend Mentor's desktop (1440) and mobile (375) designs in `reference/design/`. Two text colours are darker than the style guide so small text passes 4.5:1 (the orange label and badge, and the old price), and text is at least 16 px.
+- Layout, words, images and icons follow Frontend Mentor's desktop (1440) and mobile (375) designs in `reference/design/`. Two text colours are darker than the style guide so small text passes 4.5:1 (the orange label and badge, and the old price), the bin and quantity icons are darker so they pass 3:1, and text is at least 16 px.
+- The "sneakers" wordmark is set in Kumbh Sans Bold, because the starter's logo file wasn't available for this build.
 - `og:site_name` and WebSite JSON-LD name the site "E-commerce Product Page"; a 1200 x 630 Open Graph image is generated at build time.
 
 ## Development

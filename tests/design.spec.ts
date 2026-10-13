@@ -141,3 +141,29 @@ test("text colours pass 4.5:1 on their backgrounds", async ({ page }) => {
   });
   for (const pair of pairs) expect(pair.ratio, pair.selector).toBeGreaterThanOrEqual(4.5);
 });
+
+test("icon controls keep 3:1 against their backgrounds at rest and on hover", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Increase quantity" }).click();
+  await page.getByRole("button", { name: "Add to cart" }).click();
+  await page.getByRole("button", { name: /^Cart/ }).click();
+  const ratio = (selector: string) =>
+    page.locator(selector).first().evaluate((el) => {
+      const parse = (c: string) => c.match(/\d+(\.\d+)?/g)!.slice(0, 3).map(Number);
+      const lum = (rgb: number[]) => {
+        const [r, g, b] = rgb.map((v) => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; });
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      };
+      let node: Element | null = el;
+      let bg = "rgb(255, 255, 255)";
+      while (node) { const c = getComputedStyle(node).backgroundColor; if (c !== "rgba(0, 0, 0, 0)") { bg = c; break; } node = node.parentElement; }
+      const [a, b] = [lum(parse(getComputedStyle(el).color)), lum(parse(bg))].sort((x, y) => y - x);
+      return (a + 0.05) / (b + 0.05);
+    });
+  for (const selector of [".quantity-button", ".delete-button"]) {
+    expect(await ratio(selector), `${selector} at rest`).toBeGreaterThanOrEqual(3);
+    await page.locator(selector).first().hover();
+    expect(await ratio(selector), `${selector} on hover`).toBeGreaterThanOrEqual(3);
+    await page.mouse.move(0, 0);
+  }
+});
