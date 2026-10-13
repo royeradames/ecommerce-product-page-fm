@@ -1,4 +1,4 @@
-import { ProductPage } from "./product-page";
+import { ProductPage } from "./product-detail";
 import { challengeUrl } from "./site";
 
 export default function Home() {
