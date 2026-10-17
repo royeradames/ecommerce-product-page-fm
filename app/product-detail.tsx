@@ -225,11 +225,11 @@ export function ProductPage() {
           <div className="stage">
             {wide ? (
               <button type="button" className="stage-button" aria-haspopup="dialog" onClick={openLightbox}>
-                <Image src={image.full} alt={image.alt} width={1000} height={1000} priority sizes="(min-width: 768px) 445px, 100vw" />
+                <Image src={image.full} alt={image.alt} width={1000} height={1000} priority fetchPriority="high" sizes="(min-width: 768px) 445px, 100vw" />
                 <span className="sr-only">Open the gallery</span>
               </button>
             ) : (
-              <Image src={image.full} alt={image.alt} width={1000} height={1000} priority sizes="100vw" />
+              <Image src={image.full} alt={image.alt} width={1000} height={1000} priority fetchPriority="high" sizes="100vw" />
             )}
             <button type="button" className="arrow arrow-previous" onClick={() => setActive(wrap(active - 1))}>
               <PreviousIcon />
