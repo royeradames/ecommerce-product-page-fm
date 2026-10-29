@@ -189,3 +189,10 @@ test("the lightbox fits a short desktop window", async ({ page }) => {
   const close = (await page.getByRole("button", { name: "Close gallery" }).boundingBox())!;
   expect(close.y).toBeGreaterThanOrEqual(0);
 });
+
+test("the large product image, the page's largest paint, asks the browser for high fetch priority", async ({ page }) => {
+  for (const width of [1440, 375]) {
+    await open(page, width);
+    await expect(page.locator(".gallery .stage img")).toHaveAttribute("fetchpriority", "high");
+  }
+});
